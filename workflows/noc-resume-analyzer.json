@@ -1,0 +1,357 @@
+{
+  "name": "noc-resume-analyzer",
+  "nodes": [
+    {
+      "parameters": {
+        "model": "openai/gpt-4o-mini",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        -336,
+        144
+      ],
+      "name": "OpenRouter Chat Model",
+      "id": "313c3a82-aeaa-47a1-bfd2-056890163689",
+      "credentials": {
+        "openRouterApi": {
+          "id": "fSIW6LP1RuA32Hog",
+          "name": "OpenRouter account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $workflow.id }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        -192,
+        144
+      ],
+      "id": "7923482c-df5f-450a-b145-53cd59c303c0",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Parse the AI output\nconst rawOutput = $json.output;\nlet profile;\n\ntry {\n  const jsonStart = rawOutput.indexOf('{');\n  const jsonEnd = rawOutput.lastIndexOf('}');\n  const jsonString = rawOutput.substring(jsonStart, jsonEnd + 1);\n  profile = JSON.parse(jsonString);\n} catch (e) {\n  profile = $json;\n}\n\n// Extract all NOC codes from all jobs\nconst jobs = profile.jobs || [];\nconst allNocCodes = jobs.map(job => job.noc_code || job.NOC_code).filter(Boolean);\nconst primaryNoc = allNocCodes.length > 0 ? parseInt(allNocCodes[0]) : null;\n\nreturn [{\n  json: {\n    email: profile.email || null,\n    resume_data: JSON.stringify(profile),\n    noc_codes: primaryNoc,\n    all_noc_codes: allNocCodes.join(','), // \"65501,65301,14101,12203,0122,12201\"\n    education: JSON.stringify(profile.education || []),\n    skills: JSON.stringify(profile.skills || []),\n    certifications: JSON.stringify(profile.certifications || []),\n    recommendation_text: null,\n    timestamp: new Date().toISOString()\n  }\n}];\n\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        16,
+        -48
+      ],
+      "name": "⚙️ Data Parser & Formatter",
+      "id": "b49cc64e-c6aa-418b-b139-aad0d71e5b3e"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are a specialized AI resume parser that extracts detailed candidate information for Canadian immigration advisory.\n\n<ROLE>\nYou act as a precise data extractor focused on resume analysis for immigration suitability.\n\n<TASK>\nGiven the input resume text, extract and structure the following fields:\n- Full Name\n- Contact Email Address (verify format)\n- Location (city and country)\n- Education (degree, institution, dates)\n- Jobs: for each role extract Job Title, Employer Name, Start/End Dates, Job Description\n- Key Skills & Competencies relevant to Canadian NOC codes\n- Languages Spoken (if listed)\n- Certifications & Awards\n- Volunteer work or notable affiliations\n\nCRITICAL: For each job role, you MUST include:\n- \"noc_code\": \"XXXXX\" (5-digit NOC 2021 code as STRING)\n- \"teer_level\": \"X\" (TEER level 0-5 as STRING)\n- \"justification\": \"Brief explanation\"\n\n<INPUT>\nResume Text:\n{{$node[\"📝 PDF Text Extraction\"].json[\"text\"]}}\n\n<OUTPUT>\nProvide a JSON object with keys:\n- full_name\n- email\n- location\n- education (array)\n- jobs (array - each job MUST have noc_code, teer_level, justification)\n- skills\n- languages\n- certifications\n- volunteer_work\n\nEXAMPLE job object:\n{\n  \"job_title\": \"Call Centre Agent\",\n  \"employer_name\": \"Company Name\",\n  \"start_date\": \"January 2023\",\n  \"end_date\": \"Present\",\n  \"job_description\": \"Description here\",\n  \"noc_code\": \"65501\",\n  \"teer_level\": \"3\",\n  \"justification\": \"Customer service role matching NOC 65501\"\n}\n\nIf any field is unknown or missing, assign null but do not omit it.\n\nPlease ensure the **email** and **noc_code** fields are accurately extracted.\n",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        -336,
+        -48
+      ],
+      "name": "🤖 NOC Code Analyzer",
+      "id": "751da115-031e-4b04-86f4-e9f822e0cbfa"
+    },
+    {
+      "parameters": {
+        "operation": "pdf",
+        "binaryPropertyName": "Resume_PDF",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        -560,
+        -48
+      ],
+      "name": "📝 PDF Text Extraction",
+      "id": "b4557a82-fc83-4a08-ade7-34a8d9898f90"
+    },
+    {
+      "parameters": {
+        "path": "36c74b26-d5fc-4471-a1e7-100c4cc37611",
+        "formTitle": "Upload Resume",
+        "formDescription": "Upload your Resume PDF here",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Resume_PDF",
+              "fieldType": "file",
+              "multipleFiles": false,
+              "acceptFileTypes": ".pdf",
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2,
+      "position": [
+        -784,
+        -48
+      ],
+      "name": "📄 Resume Upload Form",
+      "webhookId": "36c74b26-d5fc-4471-a1e7-100c4cc37611",
+      "id": "6f50b85a-2b8f-4d0d-b971-0fce0d1aef8d"
+    },
+    {
+      "parameters": {
+        "operation": "upsert",
+        "dataTableId": {
+          "__rl": true,
+          "value": "zH8B6fydcJ3uIsmZ",
+          "mode": "list",
+          "cachedResultName": "Resume Data",
+          "cachedResultUrl": "/projects/npqilrwLEYn7BfHr/datatables/zH8B6fydcJ3uIsmZ"
+        },
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "email",
+              "keyValue": "={{ $json.email }}"
+            }
+          ]
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "email": "={{ $json.email }}",
+            "education": "={{ $json.education }}",
+            "noc_codes": "={{ $json.noc_codes }}",
+            "resume_data": "={{ $json.resume_data }}",
+            "skills": "={{ $json.skills }}",
+            "certifications": "={{ $json.certifications }}",
+            "recommendation_text": "={{ $json.recommendation_text }}",
+            "all_noc_codes": "={{ $json.all_noc_codes }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "email",
+              "displayName": "email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "resume_data",
+              "displayName": "resume_data",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "noc_codes",
+              "displayName": "noc_codes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "all_noc_codes",
+              "displayName": "all_noc_codes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "education",
+              "displayName": "education",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "skills",
+              "displayName": "skills",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "certifications",
+              "displayName": "certifications",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "recommendation_text",
+              "displayName": "recommendation_text",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1,
+      "position": [
+        240,
+        -48
+      ],
+      "id": "6b536364-ddcf-44e2-a899-4b8739eeb00e",
+      "name": "💾 Resume Database Storage"
+    },
+    {
+      "parameters": {
+        "content": "🎯 NOC Resume Analyzer\nAutomated Canadian immigration assessment workflow\nExtracts NOC codes and candidate data from PDF resumes\n",
+        "height": 128,
+        "width": 272
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1056,
+        -176
+      ],
+      "typeVersion": 1,
+      "id": "ecd398ec-e766-47e5-b8d3-2ac6530d3880",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "📊 Data Processing Pipeline\n1. PDF → Text extraction\n2. AI analysis with NOC matching\n3. Structured data formatting\n4. Local database storage\n"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -688,
+        112
+      ],
+      "typeVersion": 1,
+      "id": "fc4d5c8f-6320-4f4e-a3a2-1c9bbd18fb45",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "💡 Output Data:\n✅ Primary NOC code (number)\n✅ All NOC codes (comma-separated)\n✅ Email, education, skills\n✅ Complete resume JSON\n"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        96,
+        112
+      ],
+      "typeVersion": 1,
+      "id": "78ed79bc-753d-4e1f-94f6-7545921a61b2",
+      "name": "Sticky Note2"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "OpenRouter Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "🤖 NOC Code Analyzer",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "🤖 NOC Code Analyzer",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "⚙️ Data Parser & Formatter": {
+      "main": [
+        [
+          {
+            "node": "💾 Resume Database Storage",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "🤖 NOC Code Analyzer": {
+      "main": [
+        [
+          {
+            "node": "⚙️ Data Parser & Formatter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "📝 PDF Text Extraction": {
+      "main": [
+        [
+          {
+            "node": "🤖 NOC Code Analyzer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "📄 Resume Upload Form": {
+      "main": [
+        [
+          {
+            "node": "📝 PDF Text Extraction",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "4a93e48a-b698-41eb-b4cb-cbe20892076c",
+  "meta": {
+    "instanceId": "b3398227427234397588ecb0e39c75fdbe7391b3b1893a085901f207d8f46554"
+  },
+  "id": "2f7aYdHMUEzGZhHT",
+  "tags": []
+}
