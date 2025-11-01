@@ -1,0 +1,23 @@
+
+[
+{
+"email": 
+"priya.sharma85@email.in",
+"resume_data": 
+"{\"full_name\":\"Priya Sharma\",\"email\":\"priya.sharma85@email.in\",\"location\":{\"city\":\"Noida\",\"country\":\"India\"},\"education\":[{\"degree\":\"Bachelor of Technology in Computer Science\",\"institution\":\"Indian Institute of Technology, Delhi, India\",\"dates\":\"Graduated 2014\"}],\"jobs\":[{\"job_title\":\"Senior Software Engineer\",\"employer_name\":\"TechSphere Solutions\",\"start_date\":\"July 2018\",\"end_date\":\"Present\",\"job_description\":\"Developed microservices-based applications using Spring Boot and Docker, deployed on AWS. Led migration of legacy monolithic applications to cloud-native solutions improving scalability and reliability. Automated CI/CD pipelines using Jenkins and Ansible, reducing deployment times by 30%. Mentored junior engineers on software best practices and agile methodologies.\",\"noc_code\":\"21720\",\"teer_level\":\"2\",\"justification\":\"Senior software engineering role focused on cloud applications, aligning with NOC 21720.\"},{\"job_title\":\"Software Developer\",\"employer_name\":\"Innovent Systems\",\"start_date\":\"June 2014\",\"end_date\":\"June 2018\",\"job_description\":\"Designed and implemented RESTful services and integrated third-party APIs. Worked closely with QA to deliver fully tested software releases. Participated in sprint planning, estimations, and code reviews.\",\"noc_code\":\"21720\",\"teer_level\":\"2\",\"justification\":\"Software development role involving API development and teamwork, fitting NOC 21720.\"}],\"skills\":[\"Java, Spring Boot, Microservices\",\"AWS Cloud and DevOps Tools\",\"Containerization with Docker and Kubernetes\",\"Jenkins, Ansible, CI/CD Pipelines\",\"RESTful API Development\",\"Agile Scrum Framework\"],\"languages\":null,\"certifications\":[\"AWS Certified Developer – Associate (2021)\",\"Certified Kubernetes Administrator (CKA) (2022)\"],\"volunteer_work\":null}",
+"noc_codes": 
+21720,
+"all_noc_codes": 
+"21720,21720",
+"education": 
+"[{\"degree\":\"Bachelor of Technology in Computer Science\",\"institution\":\"Indian Institute of Technology, Delhi, India\",\"dates\":\"Graduated 2014\"}]",
+"skills": 
+"[\"Java, Spring Boot, Microservices\",\"AWS Cloud and DevOps Tools\",\"Containerization with Docker and Kubernetes\",\"Jenkins, Ansible, CI/CD Pipelines\",\"RESTful API Development\",\"Agile Scrum Framework\"]",
+"certifications": 
+"[\"AWS Certified Developer – Associate (2021)\",\"Certified Kubernetes Administrator (CKA) (2022)\"]",
+"recommendation_text": 
+null,
+"timestamp": 
+"2025-11-01T20:07:34.459Z"
+}
+]

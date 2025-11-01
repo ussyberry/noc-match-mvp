@@ -1,0 +1,23 @@
+
+[
+{
+"email": 
+"ivan.petrov84@emailrussia.ru",
+"resume_data": 
+"{\"full_name\":\"Ivan Petrov\",\"email\":\"ivan.petrov84@emailrussia.ru\",\"location\":{\"city\":\"Moscow\",\"country\":\"Russia\"},\"education\":[{\"degree\":\"Master of Science in Computer Science\",\"institution\":\"Moscow State University, Russia\",\"dates\":\"Graduated 2013\"}],\"jobs\":[{\"job_title\":\"Senior Software Engineer\",\"employer_name\":\"TechSolutions\",\"start_date\":\"April 2018\",\"end_date\":\"Present\",\"job_description\":\"Design and develop enterprise-level applications using Java, Spring Framework, and RESTful APIs. Lead a team of 6 developers in agile projects, ensuring timely delivery and adherence to quality standards. Implemented microservices architecture, improving system scalability and maintainability. Collaborate with product managers and QA to refine requirements and enhance user experience.\",\"noc_code\":\"21720\",\"teer_level\":\"2\",\"justification\":\"Role involves software design and team leadership, aligning with NOC 21720 for software engineers.\"},{\"job_title\":\"Software Developer\",\"employer_name\":\"Innovatech\",\"start_date\":\"September 2013\",\"end_date\":\"March 2018\",\"job_description\":\"Developed web applications and internal tools with Python and Django framework. Participated in code reviews, performance optimization, and troubleshooting production issues. Contributed to migration projects transitioning legacy systems to modern platforms.\",\"noc_code\":\"21720\",\"teer_level\":\"2\",\"justification\":\"Involves software development and system modernization, which aligns with NOC 21720.\"}],\"skills\":[\"Java, Python, Spring, Django\",\"Microservices and RESTful API Development\",\"Agile and Scrum Methodologies\",\"System Architecture Design\",\"Database Management (PostgreSQL, MongoDB)\",\"Continuous Integration / Continuous Deployment (CI/CD)\"],\"languages\":null,\"certifications\":[\"Oracle Certified Professional, Java SE Programmer (OCPJP) – 2017\",\"Certified ScrumMaster (CSM) – Scrum Alliance, 2019\"],\"volunteer_work\":null}",
+"noc_codes": 
+21720,
+"all_noc_codes": 
+"21720,21720",
+"education": 
+"[{\"degree\":\"Master of Science in Computer Science\",\"institution\":\"Moscow State University, Russia\",\"dates\":\"Graduated 2013\"}]",
+"skills": 
+"[\"Java, Python, Spring, Django\",\"Microservices and RESTful API Development\",\"Agile and Scrum Methodologies\",\"System Architecture Design\",\"Database Management (PostgreSQL, MongoDB)\",\"Continuous Integration / Continuous Deployment (CI/CD)\"]",
+"certifications": 
+"[\"Oracle Certified Professional, Java SE Programmer (OCPJP) – 2017\",\"Certified ScrumMaster (CSM) – Scrum Alliance, 2019\"]",
+"recommendation_text": 
+null,
+"timestamp": 
+"2025-11-01T20:02:13.380Z"
+}
+]

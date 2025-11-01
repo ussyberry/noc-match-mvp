@@ -1,0 +1,23 @@
+
+[
+{
+"email": 
+"david.kimani85@emailafrica.com",
+"resume_data": 
+"{\"full_name\":\"David Kimani\",\"email\":\"david.kimani85@emailafrica.com\",\"location\":{\"city\":\"Nairobi\",\"country\":\"Kenya\"},\"education\":[{\"degree\":\"Bachelor of Commerce in Finance\",\"institution\":\"University of Nairobi, Kenya\",\"dates\":\"Graduated 2011\"}],\"jobs\":[{\"job_title\":\"Financial Planner\",\"employer_name\":\"WealthFront Advisors\",\"start_date\":\"March 2016\",\"end_date\":\"Present\",\"job_description\":\"Manage personal and corporate client portfolios, focusing on asset allocation, tax optimization, and retirement planning. Developed customized financial plans that improved client wealth growth by an average of 12% annually. Educate clients on investment options, market trends, and risk mitigation strategies. Coordinate with tax advisors and legal professionals to ensure compliance with regulatory requirements.\",\"noc_code\":\"11102\",\"teer_level\":\"1\",\"justification\":\"Senior advisory role in financial planning and asset management, matching NOC 11102.\"},{\"job_title\":\"Junior Financial Analyst\",\"employer_name\":\"Capital Growth Partners\",\"start_date\":\"July 2011\",\"end_date\":\"February 2016\",\"job_description\":\"Conducted extensive market research and investment risk analysis for equity and fixed income portfolios. Assisted senior analysts in preparing detailed financial reports and presentations for key stakeholders. Improved data collection processes, leading to a 20% increase in reporting accuracy.\",\"noc_code\":\"11101\",\"teer_level\":\"1\",\"justification\":\"Entry-level position assisting in financial analysis and reporting, consistent with NOC 11101.\"}],\"skills\":[\"Financial Planning and Advisory\",\"Investment Portfolio Management\",\"Tax Planning and Compliance\",\"Risk Assessment and Forecasting\",\"Client Relationship Management\",\"Financial Reporting and Analysis\"],\"languages\":null,\"certifications\":[\"Certified Financial Planner (CFP) – Financial Planning Standards Board, 2015\",\"Chartered Financial Analyst (CFA) Level I Candidate – CFA Institute, 2024\"],\"volunteer_work\":null}",
+"noc_codes": 
+11102,
+"all_noc_codes": 
+"11102,11101",
+"education": 
+"[{\"degree\":\"Bachelor of Commerce in Finance\",\"institution\":\"University of Nairobi, Kenya\",\"dates\":\"Graduated 2011\"}]",
+"skills": 
+"[\"Financial Planning and Advisory\",\"Investment Portfolio Management\",\"Tax Planning and Compliance\",\"Risk Assessment and Forecasting\",\"Client Relationship Management\",\"Financial Reporting and Analysis\"]",
+"certifications": 
+"[\"Certified Financial Planner (CFP) – Financial Planning Standards Board, 2015\",\"Chartered Financial Analyst (CFA) Level I Candidate – CFA Institute, 2024\"]",
+"recommendation_text": 
+null,
+"timestamp": 
+"2025-11-01T20:00:06.966Z"
+}
+]

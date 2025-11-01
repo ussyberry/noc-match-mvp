@@ -1,0 +1,23 @@
+
+[
+{
+"email": 
+"anna.mueller75@email.de",
+"resume_data": 
+"{\"full_name\":\"Anna Müller\",\"email\":\"anna.mueller75@email.de\",\"location\":{\"city\":\"Berlin\",\"country\":\"Germany\"},\"education\":[{\"degree\":\"Master of Science in Computer Science\",\"institution\":\"Technical University of Munich, Germany\",\"dates\":\"Graduated 2013\"}],\"jobs\":[{\"job_title\":\"Senior Software Developer\",\"employer_name\":\"CloudWave GmbH\",\"start_date\":\"May 2017\",\"end_date\":\"Present\",\"job_description\":\"Lead development of scalable web applications using React, Node.js, and AWS cloud services. Drive automation of CI/CD pipelines improving deployment frequency by 40%. Mentor junior developers and support cross-team collaboration in agile sprints. Participate in architecture and design decisions for new products.\",\"noc_code\":\"21721\",\"teer_level\":\"2\",\"justification\":\"Senior role in software development focusing on web applications, aligning with NOC 21721.\"},{\"job_title\":\"Software Engineer\",\"employer_name\":\"SoftTech Solutions\",\"start_date\":\"July 2013\",\"end_date\":\"April 2017\",\"job_description\":\"Designed and implemented backend systems with Java and Spring Boot. Developed RESTful APIs and integrated third-party services. Conducted code reviews and performance tuning. Assisted in migration of monolith applications to microservices.\",\"noc_code\":\"21721\",\"teer_level\":\"2\",\"justification\":\"Involves software engineering tasks including backend systems and API development, matching NOC 21721.\"}],\"skills\":[\"JavaScript, React, Node.js\",\"AWS Cloud Services and Infrastructure\",\"RESTful APIs and Microservices\",\"Agile Scrum Methodologies\",\"Database Technology (MySQL, DynamoDB)\",\"Containerization (Docker, Kubernetes)\"],\"languages\":null,\"certifications\":[\"AWS Certified Solutions Architect – Associate (2020)\",\"Certified Scrum Developer (CSD) – Scrum Alliance, 2018\"],\"volunteer_work\":null}",
+"noc_codes": 
+21721,
+"all_noc_codes": 
+"21721,21721",
+"education": 
+"[{\"degree\":\"Master of Science in Computer Science\",\"institution\":\"Technical University of Munich, Germany\",\"dates\":\"Graduated 2013\"}]",
+"skills": 
+"[\"JavaScript, React, Node.js\",\"AWS Cloud Services and Infrastructure\",\"RESTful APIs and Microservices\",\"Agile Scrum Methodologies\",\"Database Technology (MySQL, DynamoDB)\",\"Containerization (Docker, Kubernetes)\"]",
+"certifications": 
+"[\"AWS Certified Solutions Architect – Associate (2020)\",\"Certified Scrum Developer (CSD) – Scrum Alliance, 2018\"]",
+"recommendation_text": 
+null,
+"timestamp": 
+"2025-11-01T20:04:10.504Z"
+}
+]

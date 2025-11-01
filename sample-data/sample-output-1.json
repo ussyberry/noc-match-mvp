@@ -1,0 +1,23 @@
+
+[
+{
+"email": 
+"sarah.mitchell1985@emailprovider.com",
+"resume_data": 
+"{\"full_name\":\"Sarah Mitchell\",\"email\":\"sarah.mitchell1985@emailprovider.com\",\"location\":{\"city\":\"Boston\",\"country\":\"USA\"},\"education\":[{\"degree\":\"Bachelor of Science in Marketing\",\"institution\":\"University of Massachusetts, Amherst, MA\",\"dates\":\"Graduated 2016\"}],\"jobs\":[{\"job_title\":\"Digital Marketing Coordinator\",\"employer_name\":\"BrightWave Media\",\"start_date\":\"June 2020\",\"end_date\":\"Present\",\"job_description\":\"Planned and executed comprehensive digital marketing strategies across SEO, PPC, email, and social media. Increased lead acquisition by 35% through targeted campaigns and analytics-driven adjustments. Managed social media presence, growing followers by 50% and improving engagement metrics. Collaborated cross-functionally to align messaging and branding across departments.\",\"noc_code\":\"11202\",\"teer_level\":\"3\",\"justification\":\"Role involves digital marketing and strategy alignment, matching NOC 11202.\"},{\"job_title\":\"Marketing Assistant\",\"employer_name\":\"GreenTech Solutions\",\"start_date\":\"August 2016\",\"end_date\":\"May 2020\",\"job_description\":\"Conducted market analysis and research to support campaign development for new product launches. Created and distributed marketing materials, including newsletters and event collateral. Played a key role in planning and coordinating industry events and trade shows. Maintained segmentation and data hygiene in marketing automation platforms.\",\"noc_code\":\"11203\",\"teer_level\":\"3\",\"justification\":\"Involves support in marketing strategies and project management, aligning with NOC 11203.\"}],\"skills\":[\"SEO and SEM Strategies\",\"Google Analytics and Tag Manager\",\"Content Marketing and Copywriting\",\"Adobe Photoshop and Illustrator\",\"Social Media Campaign Management\",\"CRM and Marketing Automation Tools (HubSpot, Marketo)\"],\"languages\":null,\"certifications\":[\"Google Ads Certified (2022)\",\"HubSpot Inbound Marketing Certification (2021)\"],\"volunteer_work\":null}",
+"noc_codes": 
+11202,
+"all_noc_codes": 
+"11202,11203",
+"education": 
+"[{\"degree\":\"Bachelor of Science in Marketing\",\"institution\":\"University of Massachusetts, Amherst, MA\",\"dates\":\"Graduated 2016\"}]",
+"skills": 
+"[\"SEO and SEM Strategies\",\"Google Analytics and Tag Manager\",\"Content Marketing and Copywriting\",\"Adobe Photoshop and Illustrator\",\"Social Media Campaign Management\",\"CRM and Marketing Automation Tools (HubSpot, Marketo)\"]",
+"certifications": 
+"[\"Google Ads Certified (2022)\",\"HubSpot Inbound Marketing Certification (2021)\"]",
+"recommendation_text": 
+null,
+"timestamp": 
+"2025-11-01T19:35:28.276Z"
+}
+]

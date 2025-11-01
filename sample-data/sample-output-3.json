@@ -1,0 +1,23 @@
+
+[
+{
+"email": 
+"emily.torres92@emailprovider.com",
+"resume_data": 
+"{\"full_name\":\"Emily Torres\",\"email\":\"emily.torres92@emailprovider.com\",\"location\":{\"city\":\"Seattle\",\"country\":\"USA\"},\"education\":[{\"degree\":\"Bachelor of Science in Statistics\",\"institution\":\"University of Washington, Seattle, WA\",\"dates\":\"Graduated 2016\"}],\"jobs\":[{\"job_title\":\"Data Analyst\",\"employer_name\":\"FinServe Inc.\",\"start_date\":\"January 2019\",\"end_date\":\"Present\",\"job_description\":\"Create and maintain interactive dashboards to track KPIs using Tableau and Power BI. Collaborate with cross-functional teams to translate data findings into business strategies. Improved data reporting speed by 25% through automation of Excel processes. Conducted predictive modeling projects that increased forecast accuracy by 15%.\",\"noc_code\":\"21721\",\"teer_level\":\"2\",\"justification\":\"Role focuses on data analysis and visualization, fitting NOC 21721.\"},{\"job_title\":\"Junior Data Analyst\",\"employer_name\":\"FastTrack Logistics\",\"start_date\":\"June 2016\",\"end_date\":\"December 2018\",\"job_description\":\"Assisted in cleaning and preparing data for monthly reporting and client presentations. Supported ongoing analytics projects using SQL and Excel. Contributed to a successful client retention program with data-driven recommendations.\",\"noc_code\":\"21721\",\"teer_level\":\"2\",\"justification\":\"Entry-level data analysis role involving data preparation and reporting, consistent with NOC 21721.\"}],\"skills\":[\"Data Visualization (Tableau, Power BI)\",\"SQL and Python for Data Analysis\",\"Statistical Modeling and Predictive Analytics\",\"Excel Automation and Macros\",\"Data Cleaning and Validation\",\"Business Intelligence Reporting\"],\"languages\":null,\"certifications\":[\"Microsoft Certified: Data Analyst Associate (2021)\",\"Tableau Desktop Specialist (2020)\"],\"volunteer_work\":null}",
+"noc_codes": 
+21721,
+"all_noc_codes": 
+"21721,21721",
+"education": 
+"[{\"degree\":\"Bachelor of Science in Statistics\",\"institution\":\"University of Washington, Seattle, WA\",\"dates\":\"Graduated 2016\"}]",
+"skills": 
+"[\"Data Visualization (Tableau, Power BI)\",\"SQL and Python for Data Analysis\",\"Statistical Modeling and Predictive Analytics\",\"Excel Automation and Macros\",\"Data Cleaning and Validation\",\"Business Intelligence Reporting\"]",
+"certifications": 
+"[\"Microsoft Certified: Data Analyst Associate (2021)\",\"Tableau Desktop Specialist (2020)\"]",
+"recommendation_text": 
+null,
+"timestamp": 
+"2025-11-01T19:54:22.571Z"
+}
+]

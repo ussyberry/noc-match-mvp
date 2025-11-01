@@ -1,0 +1,23 @@
+
+[
+{
+"email": 
+"michael.reynolds77@emailprovider.com",
+"resume_data": 
+"{\"full_name\":\"Michael Reynolds\",\"email\":\"michael.reynolds77@emailprovider.com\",\"location\":{\"city\":\"Chicago\",\"country\":\"USA\"},\"education\":[{\"degree\":\"Bachelor of Science in Computer Information Systems\",\"institution\":\"Illinois State University, Normal, IL\",\"dates\":\"Graduated 2013\"}],\"jobs\":[{\"job_title\":\"Senior IT Project Manager\",\"employer_name\":\"Innovatech Solutions\",\"start_date\":\"March 2018\",\"end_date\":\"Present\",\"job_description\":\"Directed and managed multiple enterprise software implementations, aligning project goals with business objectives. Led Agile teams to deliver iterative releases, improving deployment frequency by 30%. Coordinated cross-department collaborations, achieving deadlines in high-pressure environments. Managed project budgets up to $5M and vendor relationships.\",\"noc_code\":\"02112\",\"teer_level\":\"2\",\"justification\":\"Senior management role in IT project management, aligning with NOC 02112.\"},{\"job_title\":\"IT Business Analyst\",\"employer_name\":\"TechCore Systems\",\"start_date\":\"July 2013\",\"end_date\":\"February 2018\",\"job_description\":\"Gathered and analyzed complex business requirements, translating them into technical specifications. Facilitated communication between IT teams and business stakeholders to improve project outcomes. Supported system testing, data migration, and documentation activities.\",\"noc_code\":\"21711\",\"teer_level\":\"2\",\"justification\":\"Involves analysis and solution design in IT, fitting the profile of NOC 21711.\"}],\"skills\":[\"Agile and Scrum Methodologies\",\"Project Scheduling and Budgeting\",\"Risk and Change Management\",\"Software Development Life Cycle (SDLC)\",\"Vendor Management and Contract Negotiation\",\"Jira, Confluence, Microsoft Project\"],\"languages\":null,\"certifications\":[\"Project Management Professional (PMP) – PMI, 2019\",\"ITIL Foundation Certificate – AXELOS, 2017\"],\"volunteer_work\":null}",
+"noc_codes": 
+2112,
+"all_noc_codes": 
+"02112,21711",
+"education": 
+"[{\"degree\":\"Bachelor of Science in Computer Information Systems\",\"institution\":\"Illinois State University, Normal, IL\",\"dates\":\"Graduated 2013\"}]",
+"skills": 
+"[\"Agile and Scrum Methodologies\",\"Project Scheduling and Budgeting\",\"Risk and Change Management\",\"Software Development Life Cycle (SDLC)\",\"Vendor Management and Contract Negotiation\",\"Jira, Confluence, Microsoft Project\"]",
+"certifications": 
+"[\"Project Management Professional (PMP) – PMI, 2019\",\"ITIL Foundation Certificate – AXELOS, 2017\"]",
+"recommendation_text": 
+null,
+"timestamp": 
+"2025-11-01T19:50:02.424Z"
+}
+]
