@@ -1,5 +1,5 @@
-# noc-match-mvp
-# NOC Match MVP - Automated Immigration Assessment
+# NOC Resume Analyzer
+# NOC Resume Analyzer - Automated Immigration Assessment
 
 An intelligent n8n workflow that automates Canadian immigration assessment by extracting NOC (National Occupational Classification) codes from PDF resumes using AI-powered analysis.
 
