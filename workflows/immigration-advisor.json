@@ -1,5 +1,5 @@
 {
-  "name": "NOC Resume Analyzer",
+  "name": "Immigration Advisor",
   "nodes": [
     {
       "parameters": {
@@ -37,7 +37,7 @@
     },
     {
       "parameters": {
-        "jsCode": "// Parse the AI output\nconst rawOutput = $json.output;\nlet profile;\n\ntry {\n  const jsonStart = rawOutput.indexOf('{');\n  const jsonEnd = rawOutput.lastIndexOf('}');\n  const jsonString = rawOutput.substring(jsonStart, jsonEnd + 1);\n  profile = JSON.parse(jsonString);\n} catch (e) {\n  profile = $json;\n}\n\n// Extract all NOC codes from all jobs\nconst jobs = profile.jobs || [];\nconst allNocCodes = jobs.map(job => job.noc_code || job.NOC_code).filter(Boolean);\nconst primaryNoc = allNocCodes.length > 0 ? parseInt(allNocCodes[0]) : null;\n\nreturn [{\n  json: {\n    email: profile.email || null,\n    resume_data: JSON.stringify(profile),\n    noc_codes: primaryNoc,\n    all_noc_codes: allNocCodes.join(','), // \"65501,65301,14101,12203,0122,12201\"\n    education: JSON.stringify(profile.education || []),\n    skills: JSON.stringify(profile.skills || []),\n    certifications: JSON.stringify(profile.certifications || []),\n    recommendation_text: null,\n    timestamp: new Date().toISOString()\n  }\n}];\n\n"
+        "jsCode": "// Parse the AI output\nconst rawOutput = $json.output;\nlet profile;\n\ntry {\n  const jsonStart = rawOutput.indexOf('{');\n  const jsonEnd = rawOutput.lastIndexOf('}');\n  const jsonString = rawOutput.substring(jsonStart, jsonEnd + 1);\n  profile = JSON.parse(jsonString);\n} catch (e) {\n  profile = $json;\n}\n\n// Extract all NOC codes from all jobs\nconst jobs = profile.jobs || [];\nconst allNocCodes = jobs.map(job => job.noc_code || job.NOC_code).filter(Boolean);\nconst primaryNoc = allNocCodes.length > 0 ? parseInt(allNocCodes[0]) : null;\n\nreturn [{\n  json: {\n    email: profile.email || null,\n    resume_data: JSON.stringify(profile),\n    noc_codes: primaryNoc,\n    all_noc_codes: allNocCodes.join(','),\n    skills: JSON.stringify(profile.skills || []),\n    certifications: JSON.stringify(profile.certifications || []),\n    recommendation_text: null,\n    timestamp: new Date().toISOString()\n  }\n}];\n\n"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -108,171 +108,31 @@
     },
     {
       "parameters": {
-        "operation": "upsert",
-        "dataTableId": {
-          "__rl": true,
-          "value": "zH8B6fydcJ3uIsmZ",
-          "mode": "list",
-          "cachedResultName": "Resume Data",
-          "cachedResultUrl": "/projects/npqilrwLEYn7BfHr/datatables/zH8B6fydcJ3uIsmZ"
-        },
-        "filters": {
-          "conditions": [
-            {
-              "keyName": "email",
-              "keyValue": "={{ $json.email }}"
-            }
-          ]
-        },
-        "columns": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "email": "={{ $json.email }}",
-            "education": "={{ $json.education }}",
-            "noc_codes": "={{ $json.noc_codes }}",
-            "resume_data": "={{ $json.resume_data }}",
-            "skills": "={{ $json.skills }}",
-            "certifications": "={{ $json.certifications }}",
-            "recommendation_text": "={{ $json.recommendation_text }}",
-            "all_noc_codes": "={{ $json.all_noc_codes }}"
-          },
-          "matchingColumns": [],
-          "schema": [
-            {
-              "id": "email",
-              "displayName": "email",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "readOnly": false,
-              "removed": false
-            },
-            {
-              "id": "resume_data",
-              "displayName": "resume_data",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "readOnly": false,
-              "removed": false
-            },
-            {
-              "id": "noc_codes",
-              "displayName": "noc_codes",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "number",
-              "readOnly": false,
-              "removed": false
-            },
-            {
-              "id": "all_noc_codes",
-              "displayName": "all_noc_codes",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "readOnly": false,
-              "removed": false
-            },
-            {
-              "id": "education",
-              "displayName": "education",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "readOnly": false,
-              "removed": false
-            },
-            {
-              "id": "skills",
-              "displayName": "skills",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "readOnly": false,
-              "removed": false
-            },
-            {
-              "id": "certifications",
-              "displayName": "certifications",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "readOnly": false,
-              "removed": false
-            },
-            {
-              "id": "recommendation_text",
-              "displayName": "recommendation_text",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "readOnly": false,
-              "removed": false
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": false
-        },
-        "options": {}
+        "jsCode": "const resumeData = $json.resume_data;\nconst parsedData = JSON.parse(resumeData);\n\nconst primaryNoc = parsedData.jobs && parsedData.jobs.length > 0 ? parsedData.jobs[0].noc_code : null;\nconst allNocCodes = parsedData.jobs ? parsedData.jobs.map(job => job.noc_code).filter(Boolean) : [];\nconst skills = parsedData.skills || [];\n\nreturn [{\n  json: {\n    primary_noc: primaryNoc,\n    all_noc_codes: allNocCodes,\n    skills: skills\n  }\n}];\n"
       },
-      "type": "n8n-nodes-base.dataTable",
-      "typeVersion": 1,
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
       "position": [
         240,
         -48
       ],
-      "id": "6b536364-ddcf-44e2-a899-4b8739eeb00e",
-      "name": "💾 Resume Database Storage"
+      "name": "Prepare Advisor Input",
+      "id": "a1b2c3d4-e5f6-7890-1234-567890abcdef"
     },
     {
       "parameters": {
-        "content": "🎯 NOC Resume Analyzer\nAutomated Canadian immigration assessment workflow\nExtracts NOC codes and candidate data from PDF resumes\n",
-        "height": 128,
-        "width": 272
+        "promptType": "define",
+        "text": "=You are an expert AI-powered Canadian Immigration Advisor.\n\n### ROLE\nYou are a strategic advisor specializing in Canadian immigration pathways. Your goal is to help prospective immigrants identify the most suitable programs based on their professional profile. You have comprehensive knowledge of all major Canadian federal and provincial immigration programs and are aware of current immigration trends and in-demand occupations.\n\n### TASK\nAnalyze the provided candidate profile, which includes a list of National Occupational Classification (NOC) codes and key skills. Based on this profile, identify and recommend the top three Canadian immigration programs that offer the highest probability of success.\n\n### KNOWLEDGE BASE\nYou must use your internal knowledge of:\n- **Federal Programs:** Express Entry (Federal Skilled Worker, Canadian Experience Class, Federal Skilled Trades), Atlantic Immigration Program (AIP), Rural and Northern Immigration Pilot (RNIP), and other federal streams.\n- **Provincial Nominee Programs (PNPs):** All provincial and territorial nominee programs and their specific streams (e.g., Ontario's Human Capital Priorities, British Columbia's Skills Immigration).\n- **Immigration Trends:** High-level statistical data on which NOC codes are frequently invited through Express Entry draws and which provinces have high demand for specific occupations.\n\n### INPUT\nA JSON object containing the candidate's primary NOC code, a list of all their NOC codes, and a list of their key skills.\nExample Input:\n```json\n{\n  \"primary_noc\": \"21232\",\n  \"all_noc_codes\": [\"21232\", \"21231\", \"22220\"],\n  \"skills\": [\"React\", \"Node.js\", \"Python\", \"SQL\", \"Cloud Computing\", \"Agile Methodologies\"]\n}\n```\n\n### REASONING PROCESS\n1.  **Analyze the Primary NOC:** Start with the `primary_noc`. Identify all federal and provincial programs that specifically target this occupation.\n2.  **Consider All NOCs:** Review the `all_noc_codes` list to find additional opportunities or alternative pathways.\n3.  **Evaluate Skills:** Cross-reference the `skills` with in-demand skills for the identified NOCs and programs.\n4.  **Prioritize Programs:** Rank the programs based on:\n    *   Direct alignment with the candidate's primary NOC.\n    *   The number of recent invitations for that NOC in specific programs (based on your general knowledge of trends).\n    *   The breadth of opportunities (e.g., a high-demand NOC for Express Entry is a strong candidate).\n5.  **Formulate Justification:** For each recommendation, provide a clear, concise justification explaining why it is a good fit, referencing the specific NOC code(s) and the program's focus.\n\n### OUTPUT FORMAT\nProvide a single, valid JSON object with a key named `recommendations`. This key should contain an array of exactly three recommendation objects. Each object must have the following structure:\n\n- **`rank`**: (Number) The rank of the recommendation (1, 2, or 3).\n- **`program_name`**: (String) The full name of the recommended immigration program (e.g., \"Express Entry - Federal Skilled Worker Program\").\n- **`justification`**: (String) A detailed explanation for the recommendation.\n- **`probability_of_success`**: (String) A qualitative assessment (e.g., \"High\", \"Good\", \"Medium\").\n\n#### EXAMPLE OUTPUT\n```json\n{\n  \"recommendations\": [\n    {\n      \"rank\": 1,\n      \"program_name\": \"Express Entry - Federal Skilled Worker Program\",\n      \"justification\": \"The primary NOC 21232 (Software Developer) is a high-demand occupation frequently invited through Express Entry. The candidate's skills in modern web technologies further strengthen their profile for the Comprehensive Ranking System (CRS).\",\n      \"probability_of_success\": \"High\"\n    },\n    {\n      \"rank\": 2,\n      \"program_name\": \"Ontario Immigrant Nominee Program (OINP) - Human Capital Priorities Stream\",\n      \"justification\": \"Ontario's tech sector is booming, and the OINP often targets candidates with tech-related NOCs like 21232. A provincial nomination would grant an additional 600 CRS points, virtually guaranteeing an invitation to apply.\",\n      \"probability_of_success\": \"High\"\n    },\n    {\n      \"rank\": 3,\n      \"program_name\": \"British Columbia Provincial Nominee Program (BC PNP) - Skills Immigration (Tech Stream)\",\n      \"justification\": \"British Columbia has a dedicated tech stream that prioritizes candidates in occupations like Software Developer (NOC 21232). The candidate's skills are a strong match for the needs of B.C.'s technology industry.\",\n      \"probability_of_success\": \"Good\"\n    }\n  ]\n}\n```\n",
+        "options": {}
       },
-      "type": "n8n-nodes-base.stickyNote",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
       "position": [
-        -1056,
-        -176
+        480,
+        -48
       ],
-      "typeVersion": 1,
-      "id": "ecd398ec-e766-47e5-b8d3-2ac6530d3880",
-      "name": "Sticky Note"
-    },
-    {
-      "parameters": {
-        "content": "📊 Data Processing Pipeline\n1. PDF → Text extraction\n2. AI analysis with NOC matching\n3. Structured data formatting\n4. Local database storage\n"
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "position": [
-        -688,
-        112
-      ],
-      "typeVersion": 1,
-      "id": "fc4d5c8f-6320-4f4e-a3a2-1c9bbd18fb45",
-      "name": "Sticky Note1"
-    },
-    {
-      "parameters": {
-        "content": "💡 Output Data:\n✅ Primary NOC code (number)\n✅ All NOC codes (comma-separated)\n✅ Email, education, skills\n✅ Complete resume JSON\n"
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "position": [
-        96,
-        112
-      ],
-      "typeVersion": 1,
-      "id": "78ed79bc-753d-4e1f-94f6-7545921a61b2",
-      "name": "Sticky Note2"
+      "name": "🤖 Immigration Advisor",
+      "id": "fedcba98-7654-3210-fedc-ba9876543210"
     }
   ],
   "pinData": {},
@@ -282,6 +142,13 @@
         [
           {
             "node": "🤖 NOC Code Analyzer",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "🤖 Immigration Advisor",
             "type": "ai_languageModel",
             "index": 0
           }
@@ -296,6 +163,13 @@
             "type": "ai_memory",
             "index": 0
           }
+        ],
+        [
+          {
+            "node": "🤖 Immigration Advisor",
+            "type": "ai_memory",
+            "index": 0
+          }
         ]
       ]
     },
@@ -303,7 +177,7 @@
       "main": [
         [
           {
-            "node": "💾 Resume Database Storage",
+            "node": "Prepare Advisor Input",
             "type": "main",
             "index": 0
           }
@@ -337,6 +211,17 @@
         [
           {
             "node": "📝 PDF Text Extraction",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Advisor Input": {
+      "main": [
+        [
+          {
+            "node": "🤖 Immigration Advisor",
             "type": "main",
             "index": 0
           }
