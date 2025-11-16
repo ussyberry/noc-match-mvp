@@ -1,0 +1,242 @@
+{
+  "name": "Immigration Advisor",
+  "nodes": [
+    {
+      "parameters": {
+        "model": "openai/gpt-4o-mini",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        -336,
+        144
+      ],
+      "name": "OpenRouter Chat Model",
+      "id": "313c3a82-aeaa-47a1-bfd2-056890163689",
+      "credentials": {
+        "openRouterApi": {
+          "id": "fSIW6LP1RuA32Hog",
+          "name": "OpenRouter account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $workflow.id }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        -192,
+        144
+      ],
+      "id": "7923482c-df5f-450a-b145-53cd59c303c0",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Parse the AI output\nconst rawOutput = $json.output;\nlet profile;\n\ntry {\n  const jsonStart = rawOutput.indexOf('{');\n  const jsonEnd = rawOutput.lastIndexOf('}');\n  const jsonString = rawOutput.substring(jsonStart, jsonEnd + 1);\n  profile = JSON.parse(jsonString);\n} catch (e) {\n  profile = $json;\n}\n\n// Extract all NOC codes from all jobs\nconst jobs = profile.jobs || [];\nconst allNocCodes = jobs.map(job => job.noc_code || job.NOC_code).filter(Boolean);\nconst primaryNoc = allNocCodes.length > 0 ? parseInt(allNocCodes[0]) : null;\n\nreturn [{\n  json: {\n    email: profile.email || null,\n    resume_data: JSON.stringify(profile),\n    noc_codes: primaryNoc,\n    all_noc_codes: allNocCodes.join(','),\n    skills: JSON.stringify(profile.skills || []),\n    certifications: JSON.stringify(profile.certifications || []),\n    recommendation_text: null,\n    timestamp: new Date().toISOString()\n  }\n}];\n\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        16,
+        -48
+      ],
+      "name": "⚙️ Data Parser & Formatter",
+      "id": "b49cc64e-c6aa-418b-b139-aad0d71e5b3e"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are a specialized AI resume parser that extracts detailed candidate information for Canadian immigration advisory.\n\n### ROLE\nYou are a precise data extractor. Your primary function is to analyze resumes for Canadian immigration suitability by extracting key information and assigning the correct National Occupational Classification (NOC) codes.\n\n### TASK\nGiven the resume text, extract the specified fields and structure them into a JSON object.\n\n### EXTRACTION FIELDS\n- **full_name**: The candidate's full name.\n- **email**: The candidate's contact email address. Must be a valid email format.\n- **location**: City and country of residence.\n- **education**: An array of objects, each containing `degree`, `institution`, and `dates`.\n- **jobs**: An array of objects, each detailing a specific role.\n- **skills**: A list of key skills and competencies relevant to Canadian NOC codes.\n- **languages**: A list of languages spoken.\n- **certifications**: A list of certifications and awards.\n- **volunteer_work**: Any volunteer work or notable affiliations.\n\n### CRITICAL REQUIREMENTS FOR EACH JOB\nFor each job entry, you MUST include the following fields:\n- **job_title**: The title of the role.\n- **employer_name**: The name of the employer.\n- **start_date**: The start date of employment.\n- **end_date**: The end date of employment.\n- **job_description**: A summary of responsibilities and achievements.\n- **noc_code**: A **5-digit string** representing the NOC 2021 code.\n- **teer_level**: A **string** from \"0\" to \"5\" for the TEER level.\n- **justification**: A brief explanation for the chosen NOC code.\n\n### NOC and TEER DETERMINATION\n1.  Analyze the job description and title.\n2.  Match the role to the most appropriate NOC 2021 code based on the main duties.\n3.  The TEER level is directly determined by the first digit of the NOC code (e.g., NOC `2xxxx` is TEER `1`). You must assign the TEER level based on this rule.\n\n### ERROR HANDLING AND DATA QUALITY\n- If a field is not present in the resume, its value should be `null`. **Do not omit any keys.**\n- If a date is ambiguous (e.g., \"2022\"), represent it as best as possible (e.g., \"2022-01-01 to 2022-12-31\") and add a note in the `justification`.\n- If an email address is malformed, set the value to `null`.\n\n### INPUT\nResume Text:\n{{$node[\"📝 PDF Text Extraction\"].json[\"text\"]}}\n\n### OUTPUT FORMAT\nProvide a single, valid JSON object.\n\n#### EXAMPLE JOB OBJECT\n```json\n{\n  \"job_title\": \"Software Developer\",\n  \"employer_name\": \"Tech Solutions Inc.\",\n  \"start_date\": \"June 2021\",\n  \"end_date\": \"Present\",\n  \"job_description\": \"Developed and maintained web applications using React and Node.js.\",\n  \"noc_code\": \"21232\",\n  \"teer_level\": \"1\",\n  \"justification\": \"The role involves software design, development, and testing, which aligns with NOC 21232 for Software developers and programmers.\"\n}\n```\n",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        -336,
+        -48
+      ],
+      "name": "🤖 NOC Code Analyzer",
+      "id": "751da115-031e-4b04-86f4-e9f822e0cbfa"
+    },
+    {
+      "parameters": {
+        "operation": "pdf",
+        "binaryPropertyName": "Resume_PDF",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        -560,
+        -48
+      ],
+      "name": "📝 PDF Text Extraction",
+      "id": "b4557a82-fc83-4a08-ade7-34a8d9898f90"
+    },
+    {
+      "parameters": {
+        "path": "36c74b26-d5fc-4471-a1e7-100c4cc37611",
+        "formTitle": "Upload Resume",
+        "formDescription": "Upload your Resume PDF here",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Resume_PDF",
+              "fieldType": "file",
+              "multipleFiles": false,
+              "acceptFileTypes": ".pdf",
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2,
+      "position": [
+        -784,
+        -48
+      ],
+      "name": "📄 Resume Upload Form",
+      "webhookId": "36c74b26-d5fc-4471-a1e7-100c4cc37611",
+      "id": "6f50b85a-2b8f-4d0d-b971-0fce0d1aef8d"
+    },
+    {
+      "parameters": {
+        "jsCode": "const resumeData = $json.resume_data;\nconst parsedData = JSON.parse(resumeData);\n\nconst primaryNoc = parsedData.jobs && parsedData.jobs.length > 0 ? parsedData.jobs[0].noc_code : null;\nconst allNocCodes = parsedData.jobs ? parsedData.jobs.map(job => job.noc_code).filter(Boolean) : [];\nconst skills = parsedData.skills || [];\n\nreturn [{\n  json: {\n    primary_noc: primaryNoc,\n    all_noc_codes: allNocCodes,\n    skills: skills\n  }\n}];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        240,
+        -48
+      ],
+      "name": "Prepare Advisor Input",
+      "id": "a1b2c3d4-e5f6-7890-1234-567890abcdef"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are an expert AI-powered Canadian Immigration Advisor.\n\n### ROLE\nYou are a strategic advisor specializing in Canadian immigration pathways. Your goal is to help prospective immigrants identify the most suitable programs based on their professional profile. You have comprehensive knowledge of all major Canadian federal and provincial immigration programs and are aware of current immigration trends and in-demand occupations.\n\n### TASK\nAnalyze the provided candidate profile, which includes a list of National Occupational Classification (NOC) codes and key skills. Based on this profile, identify and recommend the top three Canadian immigration programs that offer the highest probability of success.\n\n### KNOWLEDGE BASE\nYou must use your internal knowledge of:\n- **Federal Programs:** Express Entry (Federal Skilled Worker, Canadian Experience Class, Federal Skilled Trades), Atlantic Immigration Program (AIP), Rural and Northern Immigration Pilot (RNIP), and other federal streams.\n- **Provincial Nominee Programs (PNPs):** All provincial and territorial nominee programs and their specific streams (e.g., Ontario's Human Capital Priorities, British Columbia's Skills Immigration).\n- **Immigration Trends:** High-level statistical data on which NOC codes are frequently invited through Express Entry draws and which provinces have high demand for specific occupations.\n\n### INPUT\nA JSON object containing the candidate's primary NOC code, a list of all their NOC codes, and a list of their key skills.\nExample Input:\n```json\n{\n  \"primary_noc\": \"21232\",\n  \"all_noc_codes\": [\"21232\", \"21231\", \"22220\"],\n  \"skills\": [\"React\", \"Node.js\", \"Python\", \"SQL\", \"Cloud Computing\", \"Agile Methodologies\"]\n}\n```\n\n### REASONING PROCESS\n1.  **Analyze the Primary NOC:** Start with the `primary_noc`. Identify all federal and provincial programs that specifically target this occupation.\n2.  **Consider All NOCs:** Review the `all_noc_codes` list to find additional opportunities or alternative pathways.\n3.  **Evaluate Skills:** Cross-reference the `skills` with in-demand skills for the identified NOCs and programs.\n4.  **Prioritize Programs:** Rank the programs based on:\n    *   Direct alignment with the candidate's primary NOC.\n    *   The number of recent invitations for that NOC in specific programs (based on your general knowledge of trends).\n    *   The breadth of opportunities (e.g., a high-demand NOC for Express Entry is a strong candidate).\n5.  **Formulate Justification:** For each recommendation, provide a clear, concise justification explaining why it is a good fit, referencing the specific NOC code(s) and the program's focus.\n\n### OUTPUT FORMAT\nProvide a single, valid JSON object with a key named `recommendations`. This key should contain an array of exactly three recommendation objects. Each object must have the following structure:\n\n- **`rank`**: (Number) The rank of the recommendation (1, 2, or 3).\n- **`program_name`**: (String) The full name of the recommended immigration program (e.g., \"Express Entry - Federal Skilled Worker Program\").\n- **`justification`**: (String) A detailed explanation for the recommendation.\n- **`probability_of_success`**: (String) A qualitative assessment (e.g., \"High\", \"Good\", \"Medium\").\n\n#### EXAMPLE OUTPUT\n```json\n{\n  \"recommendations\": [\n    {\n      \"rank\": 1,\n      \"program_name\": \"Express Entry - Federal Skilled Worker Program\",\n      \"justification\": \"The primary NOC 21232 (Software Developer) is a high-demand occupation frequently invited through Express Entry. The candidate's skills in modern web technologies further strengthen their profile for the Comprehensive Ranking System (CRS).\",\n      \"probability_of_success\": \"High\"\n    },\n    {\n      \"rank\": 2,\n      \"program_name\": \"Ontario Immigrant Nominee Program (OINP) - Human Capital Priorities Stream\",\n      \"justification\": \"Ontario's tech sector is booming, and the OINP often targets candidates with tech-related NOCs like 21232. A provincial nomination would grant an additional 600 CRS points, virtually guaranteeing an invitation to apply.\",\n      \"probability_of_success\": \"High\"\n    },\n    {\n      \"rank\": 3,\n      \"program_name\": \"British Columbia Provincial Nominee Program (BC PNP) - Skills Immigration (Tech Stream)\",\n      \"justification\": \"British Columbia has a dedicated tech stream that prioritizes candidates in occupations like Software Developer (NOC 21232). The candidate's skills are a strong match for the needs of B.C.'s technology industry.\",\n      \"probability_of_success\": \"Good\"\n    }\n  ]\n}\n```\n",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        480,
+        -48
+      ],
+      "name": "🤖 Immigration Advisor",
+      "id": "fedcba98-7654-3210-fedc-ba9876543210"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "OpenRouter Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "🤖 NOC Code Analyzer",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "🤖 Immigration Advisor",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "🤖 NOC Code Analyzer",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "🤖 Immigration Advisor",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "⚙️ Data Parser & Formatter": {
+      "main": [
+        [
+          {
+            "node": "Prepare Advisor Input",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "🤖 NOC Code Analyzer": {
+      "main": [
+        [
+          {
+            "node": "⚙️ Data Parser & Formatter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "📝 PDF Text Extraction": {
+      "main": [
+        [
+          {
+            "node": "🤖 NOC Code Analyzer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "📄 Resume Upload Form": {
+      "main": [
+        [
+          {
+            "node": "📝 PDF Text Extraction",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Advisor Input": {
+      "main": [
+        [
+          {
+            "node": "🤖 Immigration Advisor",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "4a93e48a-b698-41eb-b4cb-cbe20892076c",
+  "meta": {
+    "instanceId": "b3398227427234397588ecb0e39c75fdbe7391b3b1893a085901f207d8f46554"
+  },
+  "id": "2f7aYdHMUEzGZhHT",
+  "tags": []
+}
